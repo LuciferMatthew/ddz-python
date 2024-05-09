@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'FirstWin.ui'
+# Form implementation generated from reading ui file 'SecWin.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.10
 #
@@ -9,6 +9,89 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton
+
+
+class AddTeamDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Добавить команду")
+        self.resize(700, 300)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.setFont(font)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Введите название команды:")
+        self.textEdit = QLineEdit()
+
+        button = QPushButton("Добавить")
+        button.clicked.connect(self.accept)
+
+        layout.addWidget(label)
+        layout.addWidget(self.textEdit)
+        layout.addWidget(button)
+
+        self.setLayout(layout)
+        self.show()
+
+class EditTeamDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Редактировать команду")
+        self.resize(700, 300)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.setFont(font)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Введите название команды:")
+        self.textEdit = QLineEdit()
+
+        button = QPushButton("Проверить наличие в списке команд")
+        button.clicked.connect(self.accept)
+
+        layout.addWidget(label)
+        layout.addWidget(self.textEdit)
+        layout.addWidget(button)
+
+        self.setLayout(layout)
+        self.show()
+
+class DelTeamDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Удалить команду")
+        self.resize(700, 300)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.setFont(font)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Введите название команды:")
+        self.textEdit = QLineEdit()
+
+        button = QPushButton("Удалить команду")
+        button.clicked.connect(self.accept)
+
+        layout.addWidget(label)
+        layout.addWidget(self.textEdit)
+        layout.addWidget(button)
+
+        self.setLayout(layout)
+        self.show()
 
 
 class Ui_MainWindow(object):
@@ -17,8 +100,58 @@ class Ui_MainWindow(object):
         MainWindow.resize(1064, 739)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.Back = QtWidgets.QPushButton(self.centralwidget)
+        self.Back.setGeometry(QtCore.QRect(40, 590, 211, 121))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(22)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Back.setFont(font)
+        self.Back.setObjectName("Back")
+        self.Back.setVisible(False)
+        self.UrChange = QtWidgets.QLabel(self.centralwidget)
+        self.UrChange.setGeometry(QtCore.QRect(40, 20, 511, 51))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.UrChange.setFont(font)
+        self.UrChange.setObjectName("UrChange")
+        self.UrChange.setVisible(False)
+        self.AddTeam = QtWidgets.QPushButton(self.centralwidget)
+        self.AddTeam.setGeometry(QtCore.QRect(40, 100, 301, 91))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.AddTeam.setFont(font)
+        self.AddTeam.setObjectName("AddTeam")
+        self.AddTeam.setVisible(False)
+        self.EditTeam = QtWidgets.QPushButton(self.centralwidget)
+        self.EditTeam.setGeometry(QtCore.QRect(40, 230, 341, 91))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.EditTeam.setFont(font)
+        self.EditTeam.setObjectName("EditTeam")
+        self.EditTeam.setVisible(False)
+        self.DeleteTeam = QtWidgets.QPushButton(self.centralwidget)
+        self.DeleteTeam.setGeometry(QtCore.QRect(40, 360, 311, 91))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.DeleteTeam.setFont(font)
+        self.DeleteTeam.setObjectName("DeleteTeam")
+        self.DeleteTeam.setVisible(False)
         self.Changeurtype = QtWidgets.QLabel(self.centralwidget)
-        self.Changeurtype.setGeometry(QtCore.QRect(0, 0, 541, 141))
+        self.Changeurtype.setGeometry(QtCore.QRect(40, 20, 511, 51))
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(20)
@@ -73,6 +206,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.Back.setText(_translate("MainWindow", "Назад"))
+        self.AddTeam.setText(_translate("MainWindow", "Добавить команду"))
+        self.EditTeam.setText(_translate("MainWindow", "Редактировать команду"))
+        self.DeleteTeam.setText(_translate("MainWindow", "Удалить команду"))
         self.Changeurtype.setText(_translate("MainWindow", "Выберите тип соревнований:"))
         self.Duo.setText(_translate("MainWindow", "Двоеборие"))
         self.Swimming.setText(_translate("MainWindow", "Плаванье"))
@@ -80,6 +217,10 @@ class Ui_MainWindow(object):
         self.Next.setText(_translate("MainWindow", "Далее"))
     def add_functions(self):
         self.Next.clicked.connect(self.SecWind)
+        self.Back.clicked.connect(self.FirstWind)
+        self.AddTeam.clicked.connect(self.openAddTeamDialog)
+        self.EditTeam.clicked.connect(self.openEditTeamDialog)
+        self.DeleteTeam.clicked.connect(self.openDelTeamDialog)
 
     def SecWind(self):
         self.Changeurtype.setVisible(False)
@@ -87,6 +228,39 @@ class Ui_MainWindow(object):
         self.Swimming.setVisible(False)
         self.RB.setVisible(False)
         self.Next.setVisible(False)
+        self.Back.setVisible(True)
+        self.UrChange.setVisible(True)
+        self.AddTeam.setVisible(True)
+        self.EditTeam.setVisible(True)
+        self.DeleteTeam.setVisible(True)
+    def FirstWind(self):
+        self.Changeurtype.setVisible(True)
+        self.Duo.setVisible(True)
+        self.Swimming.setVisible(True)
+        self.RB.setVisible(True)
+        self.Next.setVisible(True)
+        self.Back.setVisible(False)
+        self.UrChange.setVisible(False)
+        self.AddTeam.setVisible(False)
+        self.EditTeam.setVisible(False)
+        self.DeleteTeam.setVisible(False)
+
+    def openAddTeamDialog(self):
+        dialog = AddTeamDialog()
+        if dialog.exec_() == QDialog.Accepted:  # Проверяем, было ли добавлено значение
+            team_name = dialog.textEdit.text()
+
+    def openEditTeamDialog(self):
+        dialog = EditTeamDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            team_name = dialog.textEdit.text()
+
+    def openDelTeamDialog(self):
+        dialog = DelTeamDialog()
+        if dialog.exec_() == QDialog.Accepted:
+            team_name = dialog.textEdit.text()
+
+
 
 
 if __name__ == "__main__":
