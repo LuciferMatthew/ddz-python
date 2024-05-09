@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton
-
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+import os
 
 
 '''class AddTeamDialog(QDialog):
@@ -58,10 +58,36 @@ class AddTeamDialog(QDialog):
         self.show()
 
     # Added a new method to handle adding the command
-    def add_command(self):
+    '''def add_command(self):
         team_name = self.textEdit.text()
         with open("commands.txt", "a") as file:
-            file.write(team_name + "\n")
+            file.write(team_name + "\n")'''
+
+    '''def add_command(self):
+        team_name = self.textEdit.text()
+        with open("commands.txt", "r") as file:
+            commands = file.readlines()
+            if team_name + '\n' in commands:
+                QMessageBox.critical(self, 'Ошибка', 'Такая команда уже есть в списках.')
+            else:
+                with open("commands.txt", "a") as file:
+                    file.write(team_name + "\n")
+                QMessageBox.information(self, 'Успешно', 'Команда успешно добавлена.')'''
+
+    def add_command(self):
+        team_name = self.textEdit.text()
+        with open("commands.txt", "r") as file:
+            commands = file.readlines()
+            if team_name + '\n' in commands:
+                QMessageBox.critical(self, 'Ошибка', 'Такая команда уже есть в списках.')
+            else:
+                with open("commands.txt", "a") as file:
+                    if commands[-1] == '\n':  # Проверяем наличие пустой строки в конце
+                        file.seek(-1, os.SEEK_END)  # Перемещаем указатель перед последним символом
+                        file.truncate()  # Удаляем пустую строку
+                    file.write(team_name + "\n")
+                QMessageBox.information(self, 'Успешно', 'Команда успешно добавлена.')
+
 
 class EditTeamDialog(QDialog):
     def __init__(self):
