@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QDialog,QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, QMessageBox, QWidget
+from functools import partial
 import os
 
 
@@ -142,6 +143,52 @@ class DelTeamDialog(QDialog):
         layout.addWidget(button)
 
         self.setLayout(layout)
+        self.show()
+
+'''class CommandWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Command List')
+
+        layout = QVBoxLayout()
+
+        self.setLayout(layout)
+
+        command_window = QMessageBox()
+        command_window.setWindowTitle('Command List')
+
+        with open("commands.txt", "r") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        command_combo = QComboBox()
+        command_combo.addItems(commands)
+
+        command_window.layout().addWidget(command_combo)
+        command_window.exec_()'''
+
+class CommandWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Command List')
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        command_window = QWidget()
+        command_window.setWindowTitle('Command List')
+        command_window_layout = QVBoxLayout()
+        command_window.setLayout(command_window_layout)
+
+        with open("commands.txt", "r") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        command_label = QLabel("Список команд:")
+        command_combo = QComboBox()
+        command_combo.addItems(commands)
+
+        command_window_layout.addWidget(command_label)
+        command_window_layout.addWidget(command_combo)
+
+        layout.addWidget(command_window)
         self.show()
 
 
@@ -294,8 +341,9 @@ class Ui_MainWindow(object):
         self.AddTeam.clicked.connect(self.openAddTeamDialog)
         self.EditTeam.clicked.connect(self.openEditTeamDialog)
         self.DeleteTeam.clicked.connect(self.openDelTeamDialog)
-        self.Commands.clicked.connect(self.ShowComands)
-        self.Players.clicked.connect(self.ShowPlayers)
+        self.Commands.clicked.connect(self.ShowCommands)   # Создаем экземпляр ShowCommands и вызываем его
+
+        '''self.Players.clicked.connect(self.ShowPlayers)'''
 
     def SecWind(self):
         self.Changeurtype.setVisible(False)
@@ -339,6 +387,8 @@ class Ui_MainWindow(object):
         if dialog.exec_() == QDialog.Accepted:
             team_name = dialog.textEdit.text()
 
+    def ShowCommands(self):
+        Message = CommandWindow()
 
 
 
