@@ -59,22 +59,6 @@ class AddTeamDialog(QDialog):
         self.show()
 
     # Added a new method to handle adding the command
-    '''def add_command(self):
-        team_name = self.textEdit.text()
-        with open("commands.txt", "a") as file:
-            file.write(team_name + "\n")'''
-
-    '''def add_command(self):
-        team_name = self.textEdit.text()
-        with open("commands.txt", "r") as file:
-            commands = file.readlines()
-            if team_name + '\n' in commands:
-                QMessageBox.critical(self, 'Ошибка', 'Такая команда уже есть в списках.')
-            else:
-                with open("commands.txt", "a") as file:
-                    file.write(team_name + "\n")
-                QMessageBox.information(self, 'Успешно', 'Команда успешно добавлена.')'''
-
     def add_command(self):
         team_name = self.textEdit.text()
         with open("commands.txt", "r") as file:
@@ -166,33 +150,24 @@ class DelTeamDialog(QDialog):
         command_window.layout().addWidget(command_combo)
         command_window.exec_()'''
 
-'''class CommandWindow(QWidget):
+class CommandWindow(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Command List')
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        command_window = QWidget()
-        command_window.setWindowTitle('Command List')
-        command_window_layout = QVBoxLayout()
-        command_window.setLayout(command_window_layout)
-
         with open("commands.txt", "r") as file:
             commands = [line.strip() for line in file.readlines()]
 
-        command_label = QLabel("Список команд:")
         command_combo = QComboBox()
         command_combo.addItems(commands)
-
-        command_window_layout.addWidget(command_label)
-        command_window_layout.addWidget(command_combo)
-
-        layout.addWidget(command_window)
-        self.show()'''
+        layout.addWidget(command_combo)
+        self.setLayout(layout)
+        self.show()
 
 
-class CommandWindow(QWidget):
+'''class CommandWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Command List')
@@ -215,7 +190,7 @@ class CommandWindow(QWidget):
         command_window_layout.addWidget(command_combo)
 
         layout.addWidget(self.command_window)
-        self.show()
+        self.show()'''
 
 
 class Ui_MainWindow(object):
@@ -367,7 +342,7 @@ class Ui_MainWindow(object):
         self.AddTeam.clicked.connect(self.openAddTeamDialog)
         self.EditTeam.clicked.connect(self.openEditTeamDialog)
         self.DeleteTeam.clicked.connect(self.openDelTeamDialog)
-        self.Commands.clicked.connect(self.ShowCommands)   # Создаем экземпляр ShowCommands и вызываем его
+        self.Commands.clicked.connect(self.ShowCommandsDialog)   # Создаем экземпляр ShowCommands и вызываем его
 
         '''self.Players.clicked.connect(self.ShowPlayers)'''
 
@@ -413,10 +388,10 @@ class Ui_MainWindow(object):
         if dialog.exec_() == QDialog.Accepted:
             team_name = dialog.textEdit.text()
 
-    def ShowCommands(self):
-        Message = CommandWindow()
-        command_window = CommandWindow()
-        command_window.show()
+    def ShowCommandsDialog(self):
+        dialog = CommandWindow()
+        if dialog.exec_() == QDialog.Accepted:
+            team_name = dialog.textEdit.text()
 
 
 
