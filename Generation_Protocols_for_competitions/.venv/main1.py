@@ -166,7 +166,7 @@ class DelTeamDialog(QDialog):
         command_window.layout().addWidget(command_combo)
         command_window.exec_()'''
 
-class CommandWindow(QWidget):
+'''class CommandWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Command List')
@@ -189,6 +189,32 @@ class CommandWindow(QWidget):
         command_window_layout.addWidget(command_combo)
 
         layout.addWidget(command_window)
+        self.show()'''
+
+
+class CommandWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Command List')
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        self.command_window = QWidget()
+        self.command_window.setWindowTitle('Command List')
+        command_window_layout = QVBoxLayout()
+        self.command_window.setLayout(command_window_layout)
+
+        with open("commands.txt", "r") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        command_label = QLabel("Список команд:")
+        command_combo = QComboBox()
+        command_combo.addItems(commands)
+
+        command_window_layout.addWidget(command_label)
+        command_window_layout.addWidget(command_combo)
+
+        layout.addWidget(self.command_window)
         self.show()
 
 
@@ -389,6 +415,8 @@ class Ui_MainWindow(object):
 
     def ShowCommands(self):
         Message = CommandWindow()
+        command_window = CommandWindow()
+        command_window.show()
 
 
 
