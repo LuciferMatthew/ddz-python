@@ -41,6 +41,15 @@ sheet.column_dimensions['C'].width = 20
 sheet.column_dimensions['I'].width = 15
 sheet.column_dimensions['K'].width = 15
 sheet.row_dimensions[2].height = 75
+count_of_teams = 3
+id_team = 1
+for x in range(3,  count_of_teams * 5):
+    sheet.cell(row = x, column=1).value = x - 2
+    if x % 10 == 3:
+        sheet.merge_cells(f'B{x}:B{x + 10}')
+        sheet.cell(row=x, column=2).value = id_team
+        id_team+=1
+
 
 for col in sheet.columns:
     for cell in col:
