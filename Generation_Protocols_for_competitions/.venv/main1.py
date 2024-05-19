@@ -3,34 +3,6 @@ from PyQt5.QtWidgets import QDialog,QLabel, QLineEdit, QVBoxLayout, QComboBox, Q
 from functools import partial
 import os
 
-
-'''class AddTeamDialog(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Добавить команду")
-        self.resize(700, 300)
-        font = QtGui.QFont()
-        font.setFamily("Calibri")
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setWeight(75)
-        self.setFont(font)
-
-        layout = QVBoxLayout()
-
-        label = QLabel("Введите название команды:")
-        self.textEdit = QLineEdit()
-
-        button = QPushButton("Добавить")
-        button.clicked.connect(self.accept)
-
-        layout.addWidget(label)
-        layout.addWidget(self.textEdit)
-        layout.addWidget(button)
-
-        self.setLayout(layout)
-        self.show() '''
-
 class AddTeamDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -73,33 +45,6 @@ class AddTeamDialog(QDialog):
                 file.write(team_name + "\n")
                 QMessageBox.information(self, 'Успешно', 'Команда успешно добавлена.')
 
-
-'''class EditTeamDialog(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Редактировать название команды")
-        self.resize(700, 300)
-        font = QtGui.QFont()
-        font.setFamily("Calibri")
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setWeight(75)
-        self.setFont(font)
-
-        layout = QVBoxLayout()
-
-        label = QLabel("Введите название команды:")
-        self.textEdit = QLineEdit()
-
-        button = QPushButton("Проверить наличие в списке команд")
-        button.clicked.connect(self.accept)
-
-        layout.addWidget(label)
-        layout.addWidget(self.textEdit)
-        layout.addWidget(button)
-
-        self.setLayout(layout)
-        self.show()'''
 
 
 class EditTeamDialog(QDialog):
@@ -193,9 +138,8 @@ class DelTeamDialog(QDialog):
         label = QLabel("Введите название команды:")
         self.textEdit = QLineEdit()
 
-        button = QPushButton("Удалить команду")
-        button.clicked.connect(self.accept)
-
+        button = QPushButton("Удалить")
+        button.clicked.connect(self.delete_command)  # Соединяем кнопку с методом удаления команды
 
         layout.addWidget(label)
         layout.addWidget(self.textEdit)
@@ -203,6 +147,24 @@ class DelTeamDialog(QDialog):
 
         self.setLayout(layout)
         self.show()
+
+    def delete_command(self):
+        team_name = self.textEdit.text()
+        found = False
+        with open("commands.txt", "r") as file:
+            data = file.readlines()
+
+        with open("commands.txt", "w") as file:
+            for line in data:
+                if line.strip() != team_name:
+                    file.write(line)
+                else:
+                    found = True
+
+        if found:
+            QMessageBox.information(self, 'Успешно', 'Команда успешно удалена.')
+        else:
+            QMessageBox.critical(self, 'Ошибка', 'Команда не найдена.')
 
 
 class CommandWindow(QDialog):
@@ -345,16 +307,7 @@ class Ui_MainWindow(object):
         self.Commands.setVisible(False)
         self.Commands.setFont(font)
         self.Commands.setObjectName("Commands")
-        self.Players = QtWidgets.QPushButton(self.centralwidget)
-        self.Players.setGeometry(QtCore.QRect(640, 360, 411, 91))
-        font = QtGui.QFont()
-        font.setFamily("Calibri")
-        font.setPointSize(18)
-        font.setBold(True)
-        font.setWeight(75)
-        self.Players.setVisible(False)
-        self.Players.setFont(font)
-        self.Players.setObjectName("Players")
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -373,7 +326,6 @@ class Ui_MainWindow(object):
         self.RB.setText(_translate("MainWindow", "Рукопашный бой"))
         self.Next.setText(_translate("MainWindow", "Далее"))
         self.Commands.setText(_translate("MainWindow", "Вывести список команд"))
-        self.Players.setText(_translate("MainWindow", "Вывести список участников"))
     def add_functions(self):
         self.Next.clicked.connect(self.SecWind)
         self.Back.clicked.connect(self.FirstWind)
@@ -395,7 +347,6 @@ class Ui_MainWindow(object):
         self.AddTeam.setVisible(True)
         self.EditTeam.setVisible(True)
         self.DeleteTeam.setVisible(True)
-        self.Players.setVisible(True)
         self.Commands.setVisible(True)
     def FirstWind(self):
         self.Changeurtype.setVisible(True)
@@ -408,7 +359,6 @@ class Ui_MainWindow(object):
         self.AddTeam.setVisible(False)
         self.EditTeam.setVisible(False)
         self.DeleteTeam.setVisible(False)
-        self.Players.setVisible(False)
         self.Commands.setVisible(False)
 
     def openAddTeamDialog(self):
