@@ -190,7 +190,51 @@ class CommandWindow(QDialog):
         self.setLayout(layout)
         self.show()
 
+class AddPlayerDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Добавить участника")
+        self.setFixedSize(400, 300)
+        layout = QtWidgets.QVBoxLayout()
 
+        self.FIO_edit = QtWidgets.QLineEdit()
+        self.FIO_edit.setPlaceholderText("ФИО участника")
+        layout.addWidget(self.FIO_edit)
+
+        self.command_combo = QComboBox()
+
+        file_path = "commands.txt"
+        if not os.path.exists(file_path):
+            with open(file_path, "w"):
+                pass
+
+        with open(file_path, "r+") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        self.command_combo.addItems(commands)
+
+        layout.addWidget(self.command_combo)
+
+        self.badge_number_edit = QtWidgets.QLineEdit()
+        self.badge_number_edit.setPlaceholderText("Нагрудный номер")
+        layout.addWidget(self.badge_number_edit)
+
+        radio_layout = QHBoxLayout()
+        self.male_rb = QtWidgets.QRadioButton("Мужской")
+        self.female_rb = QtWidgets.QRadioButton("Женский")
+        radio_layout.addWidget(self.male_rb)
+        radio_layout.addWidget(self.female_rb)
+        layout.addLayout(radio_layout)
+
+        self.shooting_result_edit = QtWidgets.QLineEdit()
+        self.shooting_result_edit.setPlaceholderText("Результат стрельбы")
+        layout.addWidget(self.shooting_result_edit)
+
+        self.running_result_edit = QtWidgets.QLineEdit()
+        self.running_result_edit.setPlaceholderText("Результат бега")
+        layout.addWidget(self.running_result_edit)
+
+        self.setLayout(layout)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -422,8 +466,8 @@ class Ui_MainWindow(object):
         self.EditTeam.setText(_translate("MainWindow", "Редактировать команду"))
         self.DeleteTeam.setText(_translate("MainWindow", "Удалить команду"))
         self.Changeurtype.setText(_translate("MainWindow", "Выберите тип соревнований:"))
-        self.Duo.setText(_translate("MainWindow", "Двоеборие"))
-        self.Swimming.setText(_translate("MainWindow", "Плаванье"))
+        self.Duo.setText(_translate("MainWindow", "Двоеборье"))
+        self.Swimming.setText(_translate("MainWindow", "Плавание"))
         self.RB.setText(_translate("MainWindow", "Рукопашный бой"))
         self.Next.setText(_translate("MainWindow", "Далее"))
         self.Next2.setText(_translate("MainWindow", "Далее"))
@@ -440,6 +484,7 @@ class Ui_MainWindow(object):
         self.AddTeam.clicked.connect(self.openAddTeamDialog)
         self.EditTeam.clicked.connect(self.openEditTeamDialog)
         self.DeleteTeam.clicked.connect(self.openDelTeamDialog)
+        self.AddPlayer.clicked.connect(self.open_add_player_dialog)
 
     def ThirdWind(self):
         self.Changeurtype.setVisible(False)
@@ -512,10 +557,9 @@ class Ui_MainWindow(object):
         if dialog.exec_() == QDialog.Accepted:
             team_name = dialog.textEdit.text()
 
-    def ShowCommandsDialog(self):
-        dialog = CommandWindow()
-        if dialog.exec_() == QDialog.Accepted:
-            team_name = dialog.textEdit.text()
+    def open_add_player_dialog(self):
+        dialog = AddPlayerDialog()
+        dialog.exec_()
 
 
 
