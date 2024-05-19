@@ -295,6 +295,17 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Next.setFont(font)
         self.Next.setObjectName("Next")
+        self.command_label = QtWidgets.QLabel(self.centralwidget)
+        self.command_label.setGeometry(QtCore.QRect(520, 300, 511, 41))
+        font = QtGui.QFont()
+        self.command_label.setVisible(False)
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.command_label.setFont(font)
+        self.command_label.setObjectName("command_label")
+        self.command_label.setText("Список команд:")
         MainWindow.setCentralWidget(self.centralwidget)
         layout = QHBoxLayout(self.centralwidget)
 
@@ -385,6 +396,7 @@ class Ui_MainWindow(object):
         self.EditTeam.setVisible(True)
         self.DeleteTeam.setVisible(True)
         self.command_combo.setVisible(True)
+        self.command_label.setVisible(True)
     def FirstWind(self):
         self.Changeurtype.setVisible(True)
         self.Duo.setVisible(True)
@@ -397,6 +409,7 @@ class Ui_MainWindow(object):
         self.EditTeam.setVisible(False)
         self.DeleteTeam.setVisible(False)
         self.command_combo.setVisible(False)
+        self.command_label.setVisible(False)
 
     def openAddTeamDialog(self):
         dialog = AddTeamDialog()
