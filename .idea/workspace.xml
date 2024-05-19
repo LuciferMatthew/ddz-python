@@ -7,6 +7,7 @@
     <list default="true" id="e2ae27e7-147d-4ed2-be5b-1f4b5eda500c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Exel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exel.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +50,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Generation_Protocols_for_competitions" />
       <option name="ENV_FILES" value="" />
@@ -152,6 +153,7 @@
       <workItem from="1715282594061" duration="2173000" />
       <workItem from="1715976104253" duration="2394000" />
       <workItem from="1715978558628" duration="19000" />
+      <workItem from="1716118325545" duration="5977000" />
     </task>
     <servers />
   </component>
@@ -164,7 +166,7 @@
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitionss$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1715268442729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
     <SUITE FILE_PATH="coverage/ddz_python$main.coverage" NAME="main Coverage Results" MODIFIED="1715978524417" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/PycharmProjects/pythonProject" />
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitions$main.coverage" NAME="main Coverage Results" MODIFIED="1715185220993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
-    <SUITE FILE_PATH="coverage/ddz_python$Exel.coverage" NAME="Exel Coverage Results" MODIFIED="1715976223494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ddz_python$Exel.coverage" NAME="Exel Coverage Results" MODIFIED="1716122508724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitions$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1715188489571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
   </component>
 </project>
