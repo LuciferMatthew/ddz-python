@@ -190,6 +190,7 @@ class CommandWindow(QDialog):
         self.setLayout(layout)
         self.show()
 
+
 class AddPlayerDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -234,7 +235,32 @@ class AddPlayerDialog(QDialog):
         self.running_result_edit.setPlaceholderText("Результат бега")
         layout.addWidget(self.running_result_edit)
 
+        add_button = QtWidgets.QPushButton("Добавить участника")
+        add_button.clicked.connect(self.add_player)
+        layout.addWidget(add_button)
+
         self.setLayout(layout)
+
+        # Создание файла "Players.txt", если он не существует
+        if not os.path.exists("Players.txt"):
+            with open("Players.txt", "w") as file:
+                pass
+
+    def add_player(self):
+        if (self.male_rb.isChecked()):
+            Gender = 'М'
+        else:
+            Gender = 'Ж'
+
+        data = f"{self.FIO_edit.text()}_{self.command_combo.currentText()}_{self.badge_number_edit.text()}_{Gender}_{self.shooting_result_edit.text()}_{self.running_result_edit.text()}\n"
+
+        with open("Players.txt", "r+") as file:
+            if data in file.read():
+                QtWidgets.QMessageBox.critical(self, 'Ошибка', 'Такой игрок уже есть в списках')
+            else:
+                with open("Players.txt", "a") as file:
+                    file.write(data)
+                    QtWidgets.QMessageBox.information(self, 'Успех', 'Игрок успешно добавлен')
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
