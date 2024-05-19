@@ -61,23 +61,23 @@ class AddTeamDialog(QDialog):
     # Added a new method to handle adding the command
     def add_command(self):
         team_name = self.textEdit.text()
-        with open("commands.txt", "r") as file:
+        with open("commands.txt", "a+") as file:
+            file.seek(0)  # Переходим в начало файла
             commands = file.readlines()
-            if team_name + '\n' in commands:
+            if commands and team_name + '\n' in commands:
                 QMessageBox.critical(self, 'Ошибка', 'Такая команда уже есть в списках.')
             else:
-                with open("commands.txt", "a") as file:
-                    if commands[-1] == '\n':  # Проверяем наличие пустой строки в конце
-                        file.seek(-1, os.SEEK_END)  # Перемещаем указатель перед последним символом
-                        file.truncate()  # Удаляем пустую строку
-                    file.write(team_name + "\n")
+                if commands and commands[-1].strip() == '':  # Проверяем наличие пустой строки в конце
+                    file.seek(-1, os.SEEK_END)  # Перемещаем указатель перед последним символом
+                    file.truncate()  # Удаляем пустую строку
+                file.write(team_name + "\n")
                 QMessageBox.information(self, 'Успешно', 'Команда успешно добавлена.')
 
 
-class EditTeamDialog(QDialog):
+'''class EditTeamDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Редактировать команду")
+        self.setWindowTitle("Редактировать название команды")
         self.resize(700, 300)
         font = QtGui.QFont()
         font.setFamily("Calibri")
@@ -99,7 +99,82 @@ class EditTeamDialog(QDialog):
         layout.addWidget(button)
 
         self.setLayout(layout)
+        self.show()'''
+
+
+class EditTeamDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Редактировать название команды")
+        self.resize(700, 300)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.setFont(font)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("Введите название команды:")
+        self.textEdit = QLineEdit()
+
+        button = QPushButton("Проверить наличие в списке команд")
+        button.clicked.connect(self.check_team_name)  # При нажатии кнопки вызываем метод для проверки наличия команды
+
+        layout.addWidget(label)
+        layout.addWidget(self.textEdit)
+        layout.addWidget(button)
+
+        self.resultLabel = QLabel("")
+
+        # Новый стиль для жирного текста
+        self.resultLabel.setStyleSheet("font-weight: bold")
+
+        layout.addWidget(self.resultLabel)
+
+        self.editLabel = QLabel("Введите новое название команды:")
+        self.editTextEdit = QLineEdit()
+
+        editButton = QPushButton("Изменить название команды")
+        editButton.clicked.connect(self.edit_team_name)
+
+        layout.addWidget(self.editLabel)
+        layout.addWidget(self.editTextEdit)
+        layout.addWidget(editButton)
+
+        self.setLayout(layout)
         self.show()
+
+    def check_team_name(self):
+        team_name = self.textEdit.text()
+        found = False
+        with open("commands.txt", "r") as file:
+            for line in file:
+                if team_name.lower() in line.lower():
+                    self.resultLabel.setStyleSheet("background-color: green; font-size: 20px;")
+                    self.resultLabel.setText("<b>Такая команда есть в списках, вы можете изменить ее название!</b>")
+                    found = True
+                    break
+        if not found:
+            self.resultLabel.setStyleSheet("background-color: red; font-size: 20px;")
+            self.resultLabel.setText("<b>Такой команды нет в списках.</b>")
+
+    def edit_team_name(self):
+        old_name = self.textEdit.text()
+        new_name = self.editTextEdit.text()
+
+        with open("commands.txt", "r") as file:
+            data = file.readlines()
+
+        with open("commands.txt", "w") as file:
+            for line in data:
+                if line.strip() == old_name:
+                    file.write(new_name + "\n")
+                else:
+                    file.write(line)
+
+        QMessageBox.information(self, 'Успешно', 'Название команды успешно изменено.')
 
 class DelTeamDialog(QDialog):
     def __init__(self):
@@ -129,26 +204,6 @@ class DelTeamDialog(QDialog):
         self.setLayout(layout)
         self.show()
 
-'''class CommandWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('Command List')
-
-        layout = QVBoxLayout()
-
-        self.setLayout(layout)
-
-        command_window = QMessageBox()
-        command_window.setWindowTitle('Command List')
-
-        with open("commands.txt", "r") as file:
-            commands = [line.strip() for line in file.readlines()]
-
-        command_combo = QComboBox()
-        command_combo.addItems(commands)
-
-        command_window.layout().addWidget(command_combo)
-        command_window.exec_()'''
 
 class CommandWindow(QDialog):
     def __init__(self):
@@ -157,7 +212,13 @@ class CommandWindow(QDialog):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        with open("commands.txt", "r") as file:
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setWeight(75)
+        self.setFont(font)
+
+        with open("commands.txt", "r+") as file:
             commands = [line.strip() for line in file.readlines()]
 
         command_combo = QComboBox()
@@ -167,30 +228,7 @@ class CommandWindow(QDialog):
         self.show()
 
 
-'''class CommandWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('Command List')
-        layout = QVBoxLayout()
-        self.setLayout(layout)
 
-        self.command_window = QWidget()
-        self.command_window.setWindowTitle('Command List')
-        command_window_layout = QVBoxLayout()
-        self.command_window.setLayout(command_window_layout)
-
-        with open("commands.txt", "r") as file:
-            commands = [line.strip() for line in file.readlines()]
-
-        command_label = QLabel("Список команд:")
-        command_combo = QComboBox()
-        command_combo.addItems(commands)
-
-        command_window_layout.addWidget(command_label)
-        command_window_layout.addWidget(command_combo)
-
-        layout.addWidget(self.command_window)
-        self.show()'''
 
 
 class Ui_MainWindow(object):
