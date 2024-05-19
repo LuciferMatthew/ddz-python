@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog,QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, QMessageBox, QWidget
-from functools import partial
+from PyQt5.QtWidgets import QDialog,QLabel, QLineEdit, QVBoxLayout, QComboBox, QPushButton, QMessageBox
+from PyQt5.QtWidgets import QHBoxLayout, QSpacerItem, QSizePolicy
+from PyQt5.QtCore import QTimer
 import os
 
 class AddTeamDialog(QDialog):
@@ -191,8 +192,6 @@ class CommandWindow(QDialog):
 
 
 
-
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -297,22 +296,63 @@ class Ui_MainWindow(object):
         self.Next.setFont(font)
         self.Next.setObjectName("Next")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.Commands = QtWidgets.QPushButton(self.centralwidget)
-        self.Commands.setGeometry(QtCore.QRect(640, 100, 371, 91))
+        layout = QHBoxLayout(self.centralwidget)
+
+        timer = QTimer(MainWindow)
+        timer.timeout.connect(self.updateComboBox)
+        timer.start(1000)
+
         font = QtGui.QFont()
         font.setFamily("Calibri")
-        font.setPointSize(18)
-        font.setBold(True)
+        font.setPointSize(20)
         font.setWeight(75)
-        self.Commands.setVisible(False)
-        self.Commands.setFont(font)
-        self.Commands.setObjectName("Commands")
+
+        self.command_combo = QComboBox()
+        self.command_combo.setFont(font)
+        self.command_combo.setVisible(False)
+
+        file_path = "commands.txt"
+        if not os.path.exists(file_path):
+            with open(file_path, "w"):
+                pass
+
+        with open(file_path, "r+") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        self.command_combo.addItems(commands)
+
+        spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        layout.addItem(spacer)
+        layout.addWidget(self.command_combo, stretch=1)
+
+        self.centralwidget.setLayout(layout)
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        # Определяем размеры комбобокса
+        combo_width = 532  # половина ширины окна
+        combo_height = 50  # высота окна
+        self.command_combo.setFixedSize(combo_width, combo_height)
+
+        self.add_functions()
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.add_functions()
+
+    def updateComboBox(self):
+        file_path = "commands.txt"
+        with open(file_path, "r") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        current_items = [self.command_combo.itemText(i) for i in range(self.command_combo.count())]
+        if commands != current_items:
+            self.command_combo.clear()
+            self.command_combo.addItems(commands)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -325,15 +365,12 @@ class Ui_MainWindow(object):
         self.Swimming.setText(_translate("MainWindow", "Плаванье"))
         self.RB.setText(_translate("MainWindow", "Рукопашный бой"))
         self.Next.setText(_translate("MainWindow", "Далее"))
-        self.Commands.setText(_translate("MainWindow", "Вывести список команд"))
     def add_functions(self):
         self.Next.clicked.connect(self.SecWind)
         self.Back.clicked.connect(self.FirstWind)
         self.AddTeam.clicked.connect(self.openAddTeamDialog)
         self.EditTeam.clicked.connect(self.openEditTeamDialog)
         self.DeleteTeam.clicked.connect(self.openDelTeamDialog)
-        self.Commands.clicked.connect(self.ShowCommandsDialog)   # Создаем экземпляр ShowCommands и вызываем его
-
         '''self.Players.clicked.connect(self.ShowPlayers)'''
 
     def SecWind(self):
@@ -347,7 +384,7 @@ class Ui_MainWindow(object):
         self.AddTeam.setVisible(True)
         self.EditTeam.setVisible(True)
         self.DeleteTeam.setVisible(True)
-        self.Commands.setVisible(True)
+        self.command_combo.setVisible(True)
     def FirstWind(self):
         self.Changeurtype.setVisible(True)
         self.Duo.setVisible(True)
@@ -359,7 +396,7 @@ class Ui_MainWindow(object):
         self.AddTeam.setVisible(False)
         self.EditTeam.setVisible(False)
         self.DeleteTeam.setVisible(False)
-        self.Commands.setVisible(False)
+        self.command_combo.setVisible(False)
 
     def openAddTeamDialog(self):
         dialog = AddTeamDialog()
