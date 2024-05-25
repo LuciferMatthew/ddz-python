@@ -253,6 +253,8 @@ class AddPlayerDialog(QDialog):
                     file.write(data)
                     QtWidgets.QMessageBox.information(self, 'Успех', 'Игрок успешно добавлен')
 
+
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -360,7 +362,7 @@ class Ui_MainWindow(object):
         self.DeleteTeam.setObjectName("DeleteTeam")
         self.DeleteTeam.setVisible(False)
         self.Changeurtype = QtWidgets.QLabel(self.centralwidget)
-        self.Changeurtype.setGeometry(QtCore.QRect(40, 20, 511, 51))
+        self.Changeurtype.setGeometry(QtCore.QRect(0, 0, 541, 141))
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(20)
@@ -370,7 +372,6 @@ class Ui_MainWindow(object):
         self.Changeurtype.setObjectName("Changeurtype")
         self.Duo = QtWidgets.QRadioButton(self.centralwidget)
         self.Duo.setEnabled(True)
-        self.Duo.setChecked(True)
         self.Duo.setGeometry(QtCore.QRect(50, 140, 191, 41))
         font = QtGui.QFont()
         font.setFamily("Calibri")
@@ -406,6 +407,30 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Next.setFont(font)
         self.Next.setObjectName("Next")
+        self.FIOSud = QtWidgets.QLineEdit(self.centralwidget)
+        self.FIOSud.setGeometry(QtCore.QRect(530, 150, 511, 31))
+        self.FIOSud.setObjectName("FIOSud")
+        self.Sud = QtWidgets.QLabel(self.centralwidget)
+        self.Sud.setGeometry(QtCore.QRect(530, 105, 441, 31))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Sud.setFont(font)
+        self.Sud.setObjectName("Sud")
+        self.FIOSec = QtWidgets.QLineEdit(self.centralwidget)
+        self.FIOSec.setGeometry(QtCore.QRect(530, 270, 511, 31))
+        self.FIOSec.setObjectName("FIOSec")
+        self.Sec = QtWidgets.QLabel(self.centralwidget)
+        self.Sec.setGeometry(QtCore.QRect(530, 230, 441, 31))
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Sec.setFont(font)
+        self.Sec.setObjectName("Sec")
         self.command_label = QtWidgets.QLabel(self.centralwidget)
         self.command_label.setGeometry(QtCore.QRect(520, 300, 511, 41))
         font = QtGui.QFont()
@@ -494,6 +519,8 @@ class Ui_MainWindow(object):
         self.EditPlayer.setText(_translate("MainWindow", "Редактировать участника"))
         self.DelPlayer.setText(_translate("MainWindow", "Удалить участника"))
         self.Back2.setText(_translate("MainWindow", "Назад"))
+        self.Sud.setText(_translate("MainWindow", "Введите ФИО главного судьи:"))
+        self.Sec.setText(_translate("MainWindow", "Введите ФИО секретаря:"))
 
     def add_functions(self):
         self.Next.clicked.connect(self.SecWind)
@@ -523,7 +550,10 @@ class Ui_MainWindow(object):
         self.EditPlayer.setVisible(True)
         self.DelPlayer.setVisible(True)
         self.Back2.setVisible(True)
-
+        self.Sec.setVisible(False)
+        self.Sud.setVisible(False)
+        self.FIOSec.setVisible(False)
+        self.FIOSud.setVisible(False)
     def SecWind(self):
         self.Changeurtype.setVisible(False)
         self.Duo.setVisible(False)
@@ -542,6 +572,10 @@ class Ui_MainWindow(object):
         self.EditPlayer.setVisible(False)
         self.DelPlayer.setVisible(False)
         self.Back2.setVisible(False)
+        self.Sec.setVisible(False)
+        self.Sud.setVisible(False)
+        self.FIOSec.setVisible(False)
+        self.FIOSud.setVisible(False)
     def FirstWind(self):
         self.Changeurtype.setVisible(True)
         self.Duo.setVisible(True)
@@ -560,6 +594,10 @@ class Ui_MainWindow(object):
         self.EditPlayer.setVisible(False)
         self.DelPlayer.setVisible(False)
         self.Back2.setVisible(False)
+        self.Sec.setVisible(True)
+        self.Sud.setVisible(True)
+        self.FIOSec.setVisible(True)
+        self.FIOSud.setVisible(True)
 
     def openAddTeamDialog(self):
         dialog = AddTeamDialog()
