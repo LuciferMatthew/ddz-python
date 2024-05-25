@@ -237,6 +237,7 @@ class AddPlayerDialog(QDialog):
                 pass
 
 
+
     def add_player(self):
         if (self.male_rb.isChecked()):
             Gender = 'М'
@@ -253,6 +254,214 @@ class AddPlayerDialog(QDialog):
                     file.write(data)
                     QtWidgets.QMessageBox.information(self, 'Успех', 'Игрок успешно добавлен')
 
+class EditPlayerDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Редактировать участника")
+        self.setFixedSize(400, 300)
+
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        layout = QtWidgets.QVBoxLayout()
+
+        label = QLabel("Выберите участника, которого хотите изменить:")
+        layout.addWidget(label)
+
+        self.player_combo = QComboBox()
+        self.load_players_from_file()
+        self.player_combo.currentIndexChanged.connect(self.update_fields)  # Connect signal to update fields
+
+        layout.addWidget(self.player_combo)
+
+        self.command_combo = QComboBox()
+
+        file_path = "commands.txt"
+        if not os.path.exists(file_path):
+            with open(file_path, "w"):
+                pass
+
+        with open(file_path, "r+") as file:
+            commands = [line.strip() for line in file.readlines()]
+
+        self.command_combo.addItems(commands)
+
+        layout.addWidget(self.command_combo)
+
+        self.FIO_edit = QtWidgets.QLineEdit()
+        self.FIO_edit.setPlaceholderText("ФИО участника")
+        layout.addWidget(self.FIO_edit)
+
+        self.badge_number_edit = QtWidgets.QLineEdit()
+        self.badge_number_edit.setPlaceholderText("Нагрудный номер")
+        layout.addWidget(self.badge_number_edit)
+
+        radio_layout = QHBoxLayout()
+        self.male_rb = QtWidgets.QRadioButton("Мужской")
+        self.female_rb = QtWidgets.QRadioButton("Женский")
+        radio_layout.addWidget(self.male_rb)
+        radio_layout.addWidget(self.female_rb)
+        layout.addLayout(radio_layout)
+
+        timer = QTimer(self)
+        timer.timeout.connect(self.updateComboBox)
+        timer.start(1000)
+
+        self.shooting_result_edit = QtWidgets.QLineEdit()
+        self.shooting_result_edit.setPlaceholderText("Результат стрельбы")
+        layout.addWidget(self.shooting_result_edit)
+
+        self.running_result_edit = QtWidgets.QLineEdit()
+        self.running_result_edit.setPlaceholderText("Результат бега")
+        layout.addWidget(self.running_result_edit)
+
+        add_button = QtWidgets.QPushButton("Изменить участника")
+        add_button.clicked.connect(self.edit_player)
+        layout.addWidget(add_button)
+
+        self.setLayout(layout)
+
+        self.load_selected_player_data()
+
+        if not os.path.exists("Players.txt"):
+            with open("Players.txt", "w") as file:
+                pass
+
+        with open("Players.txt", "r") as file:
+            lines = [line.strip() for line in file if line.strip()]
+
+        with open("Players.txt", "w") as file:
+            file.writelines('\n'.join(lines))
+
+    def load_selected_player_data(self):
+        selected_player = self.player_combo.currentText()
+        with open("Players.txt", "r") as file:
+            for line in file:
+                if selected_player in line:
+                    data = line.split('_')
+                    self.FIO_edit.setText(data[0])
+                    self.command_combo.setCurrentText(data[1])
+                    self.badge_number_edit.setText(data[2])
+                    gender = data[3]
+                    if gender == 'М':
+                        self.male_rb.setChecked(True)
+                    else:
+                        self.female_rb.setChecked(True)
+                    self.shooting_result_edit.setText(data[4])
+                    self.running_result_edit.setText(data[5])
+                    break
+
+    def load_players_from_file(self):
+        with open("Players.txt", "r") as file:
+            players = [line.split('_')[0].strip() for line in file.readlines() if line.strip()]
+            self.player_combo.addItems(players)
+
+    def updateComboBox(self):
+        with open("Players.txt", "r") as file:
+            players = [line.split('_')[0].strip() for line in file.readlines()]
+
+        current_items = [self.player_combo.itemText(i) for i in range(self.player_combo.count())]
+
+        if set(players) != set(current_items):
+            self.player_combo.clear()
+            self.player_combo.addItems(players)
+
+    def update_fields(self):
+        selected_player = self.player_combo.currentText()
+        with open("Players.txt", "r") as file:
+            for line in file:
+                if selected_player in line:
+                    data = line.split('_')
+                    self.FIO_edit.setText(data[0])
+                    self.command_combo.setCurrentText(data[1])
+                    self.badge_number_edit.setText(data[2])
+                    # Depending on your data format, you may need to handle gender separately
+                    gender = data[3]
+                    if gender == 'М':
+                        self.male_rb.setChecked(True)
+                    else:
+                        self.female_rb.setChecked(True)
+                    self.shooting_result_edit.setText(data[4])
+                    self.running_result_edit.setText(data[5])
+                    break
+
+    def edit_player(self):
+        selected_player_index = self.player_combo.currentIndex()
+
+        with open("Players.txt", "r") as file:
+            lines = file.readlines()
+
+        new_data = f"{self.FIO_edit.text()}_{self.command_combo.currentText()}_{self.badge_number_edit.text()}_{'М' if self.male_rb.isChecked() else 'Ж'}_{self.shooting_result_edit.text()}_{self.running_result_edit.text()}\n"
+
+        lines[selected_player_index] = new_data
+
+        with open("Players.txt", "w") as file:
+            file.writelines(lines)
+
+        QtWidgets.QMessageBox.information(self, 'Успех', 'Игрок успешно изменен')
+
+
+class DelPlayerDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Удалить участника")
+        self.setFixedSize(400, 100)
+
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        layout = QtWidgets.QVBoxLayout()
+
+        label = QLabel("Выберите участника, которого хотите удалить:")
+        layout.addWidget(label)
+
+        self.player_combo = QComboBox()
+        self.load_players_from_file()
+        layout.addWidget(self.player_combo)
+
+        delete_button = QPushButton("Удалить участника")
+        delete_button.clicked.connect(self.delete_player)
+        layout.addWidget(delete_button)
+
+        self.setLayout(layout)
+
+    def load_players_from_file(self):
+        with open("Players.txt", "r") as file:
+            players = []
+            for line in file:
+                player_info = line.strip().split("_")
+                if len(player_info) >= 4:
+                    name_team_number = "_".join(player_info[:3])
+                    players.append(name_team_number.replace("_", "    "))
+            self.player_combo.addItems(players)
+
+    def delete_player(self):
+        selected_player_index = self.player_combo.currentIndex()
+
+        with open("Players.txt", "r") as file:
+            lines = file.readlines()
+
+        del lines[selected_player_index]
+
+        with open("Players.txt", "w") as file:
+            file.writelines(lines)
+
+        self.updateComboBox()  # Update combo box after deleting the player
+
+        QMessageBox.information(self, 'Успех', 'Игрок успешно удален')
+
+    def updateComboBox(self):
+        with open("Players.txt", "r") as file:
+            players = []
+            for line in file:
+                player_info = line.strip().split("_")
+                if len(player_info) >= 4:
+                    name_team_number = "_".join(player_info[:3])
+                    players.append(name_team_number.replace("_", "    "))
+
+        current_items = [self.player_combo.itemText(i) for i in range(self.player_combo.count())]
+
+        if set(players) != set(current_items):
+            self.player_combo.clear()
+            self.player_combo.addItems(players)
 
 
 class Ui_MainWindow(object):
@@ -531,6 +740,8 @@ class Ui_MainWindow(object):
         self.EditTeam.clicked.connect(self.openEditTeamDialog)
         self.DeleteTeam.clicked.connect(self.openDelTeamDialog)
         self.AddPlayer.clicked.connect(self.open_add_player_dialog)
+        self.EditPlayer.clicked.connect(self.open_edit_player_dialog)
+        self.DelPlayer.clicked.connect(self.open_del_player_dialog)
 
     def ThirdWind(self):
         self.Changeurtype.setVisible(False)
@@ -617,7 +828,13 @@ class Ui_MainWindow(object):
         dialog = AddPlayerDialog()
         dialog.exec_()
 
+    def open_edit_player_dialog(self):
+        dialog = EditPlayerDialog()
+        dialog.exec_()
 
+    def open_del_player_dialog(self):
+        dialog = DelPlayerDialog()
+        dialog.exec_()
 
 if __name__ == "__main__":
     import sys
