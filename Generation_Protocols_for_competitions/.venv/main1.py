@@ -236,29 +236,28 @@ class AddPlayerDialog(QDialog):
             with open("Players.txt", "w") as file:
                 pass
 
-
-
     def add_player(self):
-        if (self.male_rb.isChecked()):
+        if self.male_rb.isChecked():
             Gender = 'М'
         else:
             Gender = 'Ж'
 
         data = f"{self.FIO_edit.text()}_{self.command_combo.currentText()}_{self.badge_number_edit.text()}_{Gender}_{self.shooting_result_edit.text()}_{self.running_result_edit.text()}\n"
 
-        with open("Players.txt", "r+") as file:
-            if data in file.read():
+        with open("Players.txt", "r") as file:
+            lines = file.readlines()
+            if any(data in line for line in lines):
                 QtWidgets.QMessageBox.critical(self, 'Ошибка', 'Такой игрок уже есть в списках')
             else:
                 with open("Players.txt", "a") as file:
-                    file.write(data)
+                    file.write('\n' + data)
                     QtWidgets.QMessageBox.information(self, 'Успех', 'Игрок успешно добавлен')
 
 class EditPlayerDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Редактировать участника")
-        self.setFixedSize(400, 300)
+        self.setFixedSize(400, 250)
 
         self.setAttribute(Qt.WA_DeleteOnClose)
 
@@ -589,6 +588,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Duo.setFont(font)
         self.Duo.setObjectName("Duo")
+        self.Duo.setChecked(True)
         self.Swimming = QtWidgets.QRadioButton(self.centralwidget)
         self.Swimming.setGeometry(QtCore.QRect(50, 230, 171, 41))
         font = QtGui.QFont()
@@ -732,6 +732,9 @@ class Ui_MainWindow(object):
         self.Sec.setText(_translate("MainWindow", "Введите ФИО секретаря:"))
 
     def add_functions(self):
+        self.FIOSec.textChanged.connect(self.checkFields)
+        self.FIOSud.textChanged.connect(self.checkFields)
+        self.Next.setEnabled(False)
         self.Next.clicked.connect(self.SecWind)
         self.Back.clicked.connect(self.FirstWind)
         self.Next2.clicked.connect(self.ThirdWind)
@@ -742,6 +745,12 @@ class Ui_MainWindow(object):
         self.AddPlayer.clicked.connect(self.open_add_player_dialog)
         self.EditPlayer.clicked.connect(self.open_edit_player_dialog)
         self.DelPlayer.clicked.connect(self.open_del_player_dialog)
+
+    def checkFields(self):
+        if self.FIOSec.text() and self.FIOSud.text():
+            self.Next.setEnabled(True)
+        else:
+            self.Next.setEnabled(False)
 
     def ThirdWind(self):
         self.Changeurtype.setVisible(False)
