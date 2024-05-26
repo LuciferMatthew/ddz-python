@@ -1,3 +1,10 @@
+from openpyxl import Workbook
+from openpyxl.styles import Alignment
+from openpyxl.styles import Font
+from openpyxl import load_workbook
+
+
+
 def read_file_commands():
     with open("commands.txt", "r") as f:
         name_of_commands = f.readlines()
@@ -28,12 +35,48 @@ def read_file_players():
     return names, names_of_commands, numbers, pols, ochki_strelba, ochki_beg
 def indexs(massiv, elem):
     x = [i for i, ltr in enumerate(massiv) if ltr == elem]
-
     return x
 
-from openpyxl import Workbook
-from openpyxl.styles import Alignment
-from openpyxl.styles import Font
+def ochki_strelba(massiv):
+    wb2 = load_workbook('points-table.xlsx')
+    ws = wb2.sheetnames
+    b = []
+    sheet = wb2[ws[0]]
+    for i in massiv:
+        a = 70
+        for j in range(1, 71):
+            if int(i) >= sheet[f"A{j}"].value:
+                a = j
+                break
+
+        b.append(sheet[f"B{a}"].value)
+    return b
+def ochki_beg(massiv_result, massiv_polov):
+    wb2 = load_workbook('points-table.xlsx')
+    ws = wb2.sheetnames
+    b = []
+    sheet1 = wb2[ws[1]]
+    sheet2 = wb2[ws[2]]
+    for i in range(len(massiv_result)):
+        a = 326
+        if massiv_polov[i] == 'М':
+            for j in range(1, 327):
+
+                if f'{massiv_result[i]}:00' == str(sheet1[f"A{j}"].value):
+                    a = j
+                    break
+            b.append(sheet1[f"B{a}"].value)
+        else:
+            for j in range(1, 327):
+                if f'{massiv_result[i]}:00' == str(sheet2[f"A{j}"].value):
+                    a = j
+                    break
+            b.append(sheet2[f"B{a}"].value)
+
+    return b
+
+
+
 fontStyle = Font(size = "16")
 wb = Workbook()
 
@@ -100,6 +143,8 @@ for x in range(5, count_of_teams * 10 + 5):
         sheet.cell(row=x, column=9).value = f"=SUM(F{x}:F{y}) + SUM(H{x}:H{y})"
         id_team += 1
 
+ochkis_strelba = ochki_strelba(result_strelba)
+ochkis_beg = ochki_beg(result_beg, pols)
 for i in range(count_of_teams):
     qwe = 0
     indexes = indexs(names_of_commands, name_of_commands[i])
@@ -107,6 +152,8 @@ for i in range(count_of_teams):
         sheet.cell(row=i * 10 + 5 + qwe, column=3).value = names[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=4).value = numbers[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=5).value = result_strelba[a]
+        sheet.cell(row=i * 10 + 5 + qwe, column=6).value = ochkis_strelba[a]
+        sheet.cell(row=i * 10 + 5 + qwe, column=8).value = ochkis_beg[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=7).value = result_beg[a]
         qwe += 1
 
@@ -115,7 +162,7 @@ for col in sheet.columns:
     for cell in col:
         # openpyxl styles aren't mutable,
         # so you have to create a copy of the style, modify the copy, then set it back
-        alignment_obj = cell.alignment.copy(horizontal='center', vertical='center', wrap_text=True)
-        cell.alignment = alignment_obj
+        cell.alignment = cell.alignment.copy(horizontal='center', vertical='center', wrap_text=True)
+
 
 wb.save('My sheet.xlsx')
