@@ -6,13 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="e2ae27e7-147d-4ed2-be5b-1f4b5eda500c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Exel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Exel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/My sheet.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/My sheet.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints>
+      <file url="file://$PROJECT_DIR$/Exel.py" />
+    </disable_hints>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -23,6 +26,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Exel.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -163,7 +169,7 @@
       <workItem from="1716149815892" duration="1060000" />
       <workItem from="1716720010186" duration="11223000" />
       <workItem from="1716749509394" duration="2334000" />
-      <workItem from="1716809826454" duration="2110000" />
+      <workItem from="1716809826454" duration="4189000" />
     </task>
     <servers />
   </component>
@@ -181,23 +187,13 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Exel.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ddz_python$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1716753720904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitions$test.coverage" NAME="test Coverage Results" MODIFIED="1715187276211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitionss$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1715268442729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
     <SUITE FILE_PATH="coverage/ddz_python$main.coverage" NAME="main Coverage Results" MODIFIED="1716751759728" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitions$main.coverage" NAME="main Coverage Results" MODIFIED="1715185220993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
-    <SUITE FILE_PATH="coverage/ddz_python$Exel.coverage" NAME="Exel Coverage Results" MODIFIED="1716814221978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ddz_python$Exel.coverage" NAME="Exel Coverage Results" MODIFIED="1716814246285" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Generation_Protocols_for_competitions$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1715188489571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Generation_Protocols_for_competitions/.venv" />
   </component>
 </project>
