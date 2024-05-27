@@ -74,6 +74,16 @@ def ochki_beg(massiv_result, massiv_polov):
             b.append(sheet2[f"B{a}"].value)
 
     return b
+def my_place(ochkis_strelba,ochkis_beg):
+    summa = []
+    for i in range(len(ochkis_strelba)):
+        summa.append(ochkis_strelba[i]+ochkis_beg[i])
+    # Создаем словарь, где ключами будут уникальные элементы массива, а значениями будут их позиции в упорядоченном массиве
+    unique_sorted = {val: i for i, val in enumerate(sorted(set(summa), reverse=False))}
+
+    # Получаем ранги элементов, где наибольшему значению соответствует ранг 1
+    ranks = [len(unique_sorted) - unique_sorted[val] for val in summa]
+    return ranks
 
 
 
@@ -145,6 +155,7 @@ for x in range(5, count_of_teams * 10 + 5):
 
 ochkis_strelba = ochki_strelba(result_strelba)
 ochkis_beg = ochki_beg(result_beg, pols)
+my_places = my_place(ochkis_strelba,ochkis_beg)
 for i in range(count_of_teams):
     qwe = 0
     indexes = indexs(names_of_commands, name_of_commands[i])
@@ -155,6 +166,7 @@ for i in range(count_of_teams):
         sheet.cell(row=i * 10 + 5 + qwe, column=6).value = ochkis_strelba[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=8).value = ochkis_beg[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=7).value = result_beg[a]
+        sheet.cell(row=i * 10 + 5 + qwe, column=10).value = my_places[a]
         qwe += 1
 
 
