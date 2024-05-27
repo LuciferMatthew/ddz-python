@@ -85,7 +85,20 @@ def my_place(ochkis_strelba,ochkis_beg):
     ranks = [len(unique_sorted) - unique_sorted[val] for val in summa]
     return ranks
 
+def command_place(massiv):
+    unique_sorted = {val: i for i, val in enumerate(sorted(set(massiv), reverse=False))}
 
+    # Получаем ранги элементов, где наибольшему значению соответствует ранг 1
+    ranks = [len(unique_sorted) - unique_sorted[val] for val in massiv]
+    return ranks
+
+def sum_of_4(summa):
+    sorted_arr = sorted(summa, reverse=True)  # Сортируем массив по убыванию
+    top_4_max = sorted_arr[:4]  # Получаем 4 максимальных элемента
+    a = 0
+    for i in top_4_max:
+        a += i
+    return a
 
 fontStyle = Font(size = "16")
 wb = Workbook()
@@ -139,8 +152,10 @@ sheet.cell(row = 2, column = 1).font = fontStyle
 name_of_commands = read_file_commands()
 names, names_of_commands, numbers, pols, result_strelba, result_beg = read_file_players()
 count_of_teams = len(name_of_commands)
+ochkis_strelba = ochki_strelba(result_strelba)
+ochkis_beg = ochki_beg(result_beg, pols)
+my_places = my_place(ochkis_strelba,ochkis_beg)
 id_team = 1
-
 for x in range(5, count_of_teams * 10 + 5):
     sheet.cell(row=x, column=1).value = x - 4
     if x % 10 == 5:
@@ -153,12 +168,16 @@ for x in range(5, count_of_teams * 10 + 5):
         sheet.cell(row=x, column=9).value = f"=SUM(F{x}:F{y}) + SUM(H{x}:H{y})"
         id_team += 1
 
-ochkis_strelba = ochki_strelba(result_strelba)
-ochkis_beg = ochki_beg(result_beg, pols)
-my_places = my_place(ochkis_strelba,ochkis_beg)
+top4_array = []
 for i in range(count_of_teams):
     qwe = 0
+    massiv_ochkov = []
     indexes = indexs(names_of_commands, name_of_commands[i])
+    for j in range(len(indexes)):
+        massiv_ochkov.append(ochkis_strelba[indexes[j]] + ochkis_beg[indexes[j]])
+    top_4_max = sum_of_4(massiv_ochkov)
+    top4_array.append(top_4_max)
+    sheet.cell(row=i * 10 + 5, column=11).value = top_4_max
     for a in indexes:
         sheet.cell(row=i * 10 + 5 + qwe, column=3).value = names[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=4).value = numbers[a]
@@ -168,6 +187,12 @@ for i in range(count_of_teams):
         sheet.cell(row=i * 10 + 5 + qwe, column=7).value = result_beg[a]
         sheet.cell(row=i * 10 + 5 + qwe, column=10).value = my_places[a]
         qwe += 1
+
+command_place_array = command_place(top4_array)
+print(command_place_array)
+for i in range(count_of_teams):
+    sheet.cell(row=i * 10 + 5, column=12).value = command_place_array[i]
+
 
 
 for col in sheet.columns:
