@@ -462,6 +462,11 @@ class DelPlayerDialog(QDialog):
             self.player_combo.clear()
             self.player_combo.addItems(players)
 
+class SuccessMessage(QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Успех")
+        self.setText("Итоговый протокол успешно сгенерирован")
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -723,6 +728,11 @@ class Ui_MainWindow(object):
         self.EditPlayer.clicked.connect(self.open_edit_player_dialog)
         self.DelPlayer.clicked.connect(self.open_del_player_dialog)
         self.GenerateProtokol.clicked.connect(lambda: CreateExel(self.FIOSud.text(), self.FIOSec.text()))
+        self.GenerateProtokol.clicked.connect(self.show_success_message)
+
+    def show_success_message(self):
+        success_msg = SuccessMessage()
+        success_msg.exec_()
 
     def checkFields(self):
         if self.FIOSec.text() and self.FIOSud.text():
