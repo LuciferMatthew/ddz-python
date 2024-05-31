@@ -260,7 +260,6 @@ class EditPlayerDialog(QDialog):
         self.setFixedSize(400, 250)
 
         self.setAttribute(Qt.WA_DeleteOnClose)
-
         layout = QtWidgets.QVBoxLayout()
 
         label = QLabel("Выберите участника, которого хотите изменить:")
