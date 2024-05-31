@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDialog,QLabel, QLineEdit, QVBoxLayout, QComboBox, Q
 from PyQt5.QtWidgets import QHBoxLayout, QSpacerItem, QSizePolicy
 from PyQt5.QtCore import QTimer, Qt
 import os
+from Exel import CreateExel
 
 class AddTeamDialog(QDialog):
     def __init__(self):
@@ -723,6 +724,7 @@ class Ui_MainWindow(object):
         self.AddPlayer.clicked.connect(self.open_add_player_dialog)
         self.EditPlayer.clicked.connect(self.open_edit_player_dialog)
         self.DelPlayer.clicked.connect(self.open_del_player_dialog)
+        self.GenerateProtokol.clicked.connect(self.CreateExel(self.FIOSud, self.FIOSec))
 
 
     def checkFields(self):
