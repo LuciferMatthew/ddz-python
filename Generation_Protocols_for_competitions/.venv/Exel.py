@@ -10,7 +10,7 @@ def set_border(ws, cell_range):
             cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
 def read_file_commands():
-    with open("./Generation_Protocols_for_competitions/.venv/commands.txt", "r") as f:
+    with open("commands.txt", "r") as f:
         name_of_commands = f.readlines()
     name_of_commands = [command.strip().replace("\n", "").replace("\r", "").replace("\t", "") for
                         command in name_of_commands]
@@ -25,7 +25,7 @@ def read_file_players():
     ochki_strelba = []
     ochki_beg = []
 
-    with open("./Generation_Protocols_for_competitions/.venv/Players.txt", "r") as f:
+    with open("Players.txt", "r") as f:
         for line in f:
             data = line.strip().split("_")
             if len(data) >= 6:
@@ -216,4 +216,4 @@ def CreateExel(sudia_name, secr_name):
     sheet.cell(row=count_of_teams * 10 + 5, column=1).alignment = Alignment(horizontal='left', vertical='center', wrap_text=True)
     sheet.cell(row=count_of_teams * 10 + 5, column=1).font = fontStyle
     sheet.cell(row=count_of_teams * 10 + 6, column=1).font = fontStyle
-    wb.save('My sheet.xlsx')
+    wb.save('../../My sheet.xlsx')

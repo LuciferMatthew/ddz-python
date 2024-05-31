@@ -616,8 +616,6 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Sec.setFont(font)
         self.Sec.setObjectName("Sec")
-        fio_sud = self.FIOSud.text()
-        fio_sec = self.FIOSec.text()
         self.command_label = QtWidgets.QLabel(self.centralwidget)
         self.command_label.setGeometry(QtCore.QRect(520, 300, 511, 41))
         font = QtGui.QFont()
@@ -724,8 +722,7 @@ class Ui_MainWindow(object):
         self.AddPlayer.clicked.connect(self.open_add_player_dialog)
         self.EditPlayer.clicked.connect(self.open_edit_player_dialog)
         self.DelPlayer.clicked.connect(self.open_del_player_dialog)
-        self.GenerateProtokol.clicked.connect(self.CreateExel(self.FIOSud, self.FIOSec))
-
+        self.GenerateProtokol.clicked.connect(lambda: CreateExel(self.FIOSud.text(), self.FIOSec.text()))
 
     def checkFields(self):
         if self.FIOSec.text() and self.FIOSud.text():
